@@ -4,7 +4,8 @@ import 'package:get_it/get_it.dart';
 // Service
 import 'package:chatme/services/media_service.dart';
 import 'package:chatme/services/navigation_service.dart';
-
+import 'package:chatme/services/cloud_storage_service.dart';
+import 'package:chatme/services/database_service.dart';
 
 class SplashPage extends StatefulWidget {
   final VoidCallback onInitializationComplete;
@@ -21,7 +22,9 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    _setup().then((_) => widget.onInitializationComplete());
+    Future.delayed(Duration(seconds: 2)).then((_) {
+      _setup().then((_) => widget.onInitializationComplete());
+    });
   }
 
   @override
@@ -54,5 +57,8 @@ class _SplashPageState extends State<SplashPage> {
   void _registerServices() {
     GetIt.instance.registerSingleton<NavigationService>(NavigationService());
     GetIt.instance.registerSingleton<MediaService>(MediaService());
+    GetIt.instance
+        .registerSingleton<CloudStorageService>(CloudStorageService());
+    GetIt.instance.registerSingleton<DatabaseService>(DatabaseService());
   }
 }
