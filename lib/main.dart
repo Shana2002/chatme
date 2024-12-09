@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:chatme/services/navigation_service.dart';
 
 // Pages
+import 'package:chatme/pages/login_page.dart';
 import 'package:chatme/pages/splash_page.dart';
 
 void main() {
@@ -24,7 +25,11 @@ class MyApp extends StatelessWidget {
       theme:
           ThemeData(scaffoldBackgroundColor: Color.fromRGBO(36, 35, 49, 1.0)),
       home: Scaffold(body: Container()),
-      // navigatorKey: NavigationService().navigator,
+      navigatorKey: NavigationService().navigator,
+      initialRoute: "/login",
+      routes: {
+        "/login": (BuildContext _context)=>LoginPage(),
+      },
     );
   }
 }
