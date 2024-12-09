@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "533519019499",
+    "project_id": "chatwithme-a02e6",
+    "storage_bucket": "chatwithme-a02e6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533519019499:android:1664538ad88400b3c27dae",
+        "android_client_info": {
+          "package_name": "com.example.chatme"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAQQWWOhzN_nO2SH3octug5t_E9QT-AoE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
