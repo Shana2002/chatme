@@ -99,7 +99,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   Widget _registerForm() {
     return Container(
-        height: _deviceHight! * 0.25,
+        height: _deviceHight! * 0.35,
         child: Form(
           key: registerFormKey,
           child: Column(
@@ -145,7 +145,20 @@ class _RegistrationPageState extends State<RegistrationPage> {
       name: "Register",
       height: _deviceHight! * 0.06,
       width: _deviceWidth! * 0.65,
-      onPressed: () {},
+      onPressed: () async {
+        print("object");
+        if (registerFormKey.currentState!.validate() && _profileImage != null) {
+          registerFormKey.currentState!.save();
+          await _auth!.registerUserUsingEmailAndPAssword(
+              _email!, _password!, _name!, _profileImage!);
+          // String? imageUrl =
+          //     await _cloudStorageService!.saveUserImage(uid!, _profileImage!);
+
+          // print("image and auth done");
+          // await _db!.createUser(uid, _email!, _name!, imageUrl!);
+          _navigationService!.goBack();
+        }
+      },
     );
   }
 

@@ -22,7 +22,20 @@ class DatabaseService {
     }
   }
 
-  void printHello() {
-    print("hello");
+  Future<void> createUser(
+      String _uid, String email, String name, String imageUrl) async {
+    try {
+      print("helloopk");
+      await _db.collection(USER_COLLECTION).doc(_uid).set(
+        {
+          "email": email,
+          "image": imageUrl,
+          "last_active": DateTime.now().toUtc(),
+          "name": name,
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 }
