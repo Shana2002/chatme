@@ -1,6 +1,4 @@
 import 'package:chatme/providers/authentication_provider.dart';
-import 'package:chatme/services/cloud_storage_service.dart';
-import 'package:chatme/services/database_service.dart';
 import 'package:chatme/services/media_service.dart';
 import 'package:chatme/services/navigation_service.dart';
 import 'package:chatme/widgets/custom_input_field.dart';
@@ -25,9 +23,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   NavigationService? _navigationService;
   PlatformFile? _profileImage;
 
-  DatabaseService? _db;
   AuthenticationProvider? _auth;
-  CloudStorageService? _cloudStorageService;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +31,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
     _deviceHight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
     _navigationService = GetIt.instance.get<NavigationService>();
-    _cloudStorageService = GetIt.instance.get<CloudStorageService>();
-    _db = GetIt.instance.get<DatabaseService>();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
