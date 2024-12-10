@@ -117,18 +117,21 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () {
           if (_loginFormKey.currentState!.validate()) {
             _loginFormKey.currentState!.save();
-            _authenticationProvider!.loginUsingEmailAndPassword(email!, password!);
+            _authenticationProvider!
+                .loginUsingEmailAndPassword(email!, password!);
           }
         });
   }
 
   Widget _signUpLink() {
     return GestureDetector(
-      onTap: () =>_navigationService!.navigateToRoute('/register'),
+      onTap: () => _navigationService!.navigateToRoute('/register'),
       child: const Text(
         "Don't have an Account",
         style: TextStyle(color: Colors.blueAccent),
       ),
     );
   }
+
+  
 }
