@@ -1,3 +1,4 @@
+import 'package:chatme/widgets/custom_list_view_tile.dart';
 import 'package:chatme/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -37,11 +38,19 @@ class _ChatsPageState extends State<ChatsPage> {
                 onPressed: () {
                   _auth!.logOut();
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.logout,
                   color: Color.fromRGBO(0, 82, 218, 1.0),
                 )),
           ),
+          CustomListViewTile(
+              height: _deviceHieght! * 0.1,
+              title: "Hansaka Ravishan",
+              subTitile: "Helllo",
+              imagePath: "https://i.pravatar.cc/300",
+              isActive: true,
+              isActivity: true,
+              onTap: () {})
         ],
       ),
     );
