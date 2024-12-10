@@ -1,3 +1,4 @@
+import 'package:chatme/pages/registration_page.dart';
 import 'package:chatme/providers/authentication_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,8 @@ import 'package:chatme/services/navigation_service.dart';
 // Pages
 import 'package:chatme/pages/login_page.dart';
 import 'package:chatme/pages/splash_page.dart';
+import 'package:chatme/pages/home_page.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -34,10 +37,12 @@ class MyApp extends StatelessWidget {
         theme:
             ThemeData(scaffoldBackgroundColor: Color.fromRGBO(36, 35, 49, 1.0)),
         home: Scaffold(body: Container()),
-        navigatorKey: NavigationService().navigator,
+        navigatorKey: GetIt.instance<NavigationService>().navigator,
         initialRoute: "/login",
         routes: {
           "/login": (BuildContext _context) => LoginPage(),
+          "/home":(BuildContext _context)=> HomePage(),
+          "/register":(BuildContext _context) => RegistrationPage(),
         },
       ),
     );
