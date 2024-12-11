@@ -8,16 +8,16 @@ enum MessageType {
 }
 
 class ChatMessage {
-  final String senderID;
+  final String sender_id;
   final MessageType type;
   final String content;
-  final DateTime sentTime;
+  final DateTime sent_time;
 
   ChatMessage(
-      {required this.senderID,
+      {required this.sender_id,
       required this.type,
       required this.content,
-      required this.sentTime});
+      required this.sent_time});
 
   factory ChatMessage.fromJSON(Map<String, dynamic> _json) {
     MessageType _messageType;
@@ -33,10 +33,10 @@ class ChatMessage {
     }
 
     return ChatMessage(
-      senderID: _json["senderId"],
+      sender_id: _json["sender_id"],
       type: _messageType,
       content: _json['content'],
-      sentTime: _json['sent_time'].toDate(),
+      sent_time: _json['sent_time'].toDate(),
     );
   }
 
@@ -55,8 +55,8 @@ class ChatMessage {
     return {
       "content": content,
       "type": _messageType,
-      "senderId": senderID,
-      "sent_time": Timestamp.fromDate(sentTime),
+      "senderId": sender_id,
+      "sent_time": Timestamp.fromDate(sent_time),
     };
   }
 }
