@@ -1,7 +1,9 @@
 import 'package:chatme/models/chat.dart';
 import 'package:chatme/models/chat_message.dart';
 import 'package:chatme/models/chat_user.dart';
+import 'package:chatme/pages/chat_page.dart';
 import 'package:chatme/providers/chats_page_provider.dart';
+import 'package:chatme/services/navigation_service.dart';
 import 'package:chatme/widgets/custom_list_view_tile.dart';
 import 'package:chatme/widgets/top_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +11,7 @@ import 'package:flutter/material.dart';
 
 // Providers
 import 'package:chatme/providers/authentication_provider.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 class ChatsPage extends StatefulWidget {
@@ -22,12 +25,14 @@ class _ChatsPageState extends State<ChatsPage> {
   double? _deviceHieght, _deviceWidth;
   AuthenticationProvider? _auth;
   ChatsPageProvider? _pageProvider;
+  NavigationService? _navigationService;
 
   @override
   Widget build(BuildContext context) {
     _deviceHieght = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
     _auth = Provider.of<AuthenticationProvider>(context);
+    _navigationService = GetIt.instance<NavigationService>();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<ChatsPageProvider>(
@@ -114,6 +119,10 @@ class _ChatsPageState extends State<ChatsPage> {
         imagePath: _chats.imageUrl(),
         isActive: _isActive,
         isActivity: _chats.is_activity,
-        onTap: () {});
+        onTap: () {
+          _navigationService!.navigateToPage(
+            ChatPage(chat: _chats),
+          );
+        });
   }
 }
