@@ -1,3 +1,5 @@
+import 'package:chatme/models/chat.dart';
+import 'package:chatme/models/chat_message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 const String USER_COLLECTION = "Users";
@@ -54,5 +56,44 @@ class DatabaseService {
         .orderBy("sent_time", descending: true)
         .limit(1)
         .get();
+  }
+
+// get chat details
+  Stream<QuerySnapshot> getChats(String _chatId) {
+    return _db
+        .collection(CHAT_COLLECTION)
+        .doc(_chatId)
+        .collection(MESSAGE_COLLECTION)
+        .orderBy("sent_time", descending: false)
+        .snapshots();
+  }
+
+  Future<void> deleteChat(String _chatId) async {
+    try {
+      await _db.collection(CHAT_COLLECTION).doc(_chatId).delete();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> addMessageToChat(String _chatID, ChatMessage _message) async {
+    try {
+      await _db
+          .collection(CHAT_COLLECTION)
+          .doc(_chatID)
+          .collection(CHAT_COLLECTION)
+          .add(_message.toJson());
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> updateChatData(
+      String _chatID, Map<String, dynamic> _data) async {
+    try {
+      await _db.collection(CHAT_COLLECTION).doc(_chatID).update(_data);
+    } catch (e) {
+      print(e);
+    }
   }
 }

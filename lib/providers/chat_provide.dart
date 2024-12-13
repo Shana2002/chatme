@@ -22,6 +22,7 @@ class ChatProvide extends ChangeNotifier {
   List<ChatMessage>? messages;
 
   String? _message;
+  StreamSubscription? _messageStream;
 
   String get message {
     return message;
@@ -32,14 +33,71 @@ class ChatProvide extends ChangeNotifier {
     _storage = GetIt.instance.get<CloudStorageService>();
     _mediaService = GetIt.instance.get<MediaService>();
     _navigation = GetIt.instance.get<NavigationService>();
+    listenToMessages();
   }
 
   @override
   void dispose() {
+    _messageStream!.cancel();
     super.dispose();
   }
 
   void goBack() {
     _navigation!.goBack();
+  }
+
+  void listenToMessages() {
+    try {
+      _messageStream = _db!.getChats(_chatID).listen(
+        (_snapshot) {
+          List<ChatMessage> _message = _snapshot.docs.map(
+            (_m) {
+              Map<String, dynamic> _messageData =
+                  _m.data() as Map<String, dynamic>;
+              return ChatMessage.fromJSON(_messageData);
+            },
+          ).toList();
+          messages = _message;
+          notifyListeners();
+          // ass acroll to bottom call
+        },
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void deleteChat() {
+    goBack();
+    _db!.deleteChat(_chatID);
+  }
+
+  void sendTextMessage() {
+    if (_message != null) {
+      ChatMessage _messagetoSend = ChatMessage(
+          sender_id: _auth.user.uid,
+          type: MessageType.TEXT,
+          content: _message!,
+          sent_time: DateTime.now());
+
+      _db!.addMessageToChat(_chatID, _messagetoSend);
+    }
+  }
+
+  void sentImageMessage() async {
+    try {
+      PlatformFile? _file = await _mediaService!.pickImageFromLibrabry();
+      if (_file != null) {
+        String? _downloadUrl =
+            await _storage!.saveChatImage(_chatID, _auth.user.uid, _file);
+        ChatMessage _messageToSend = ChatMessage(
+            sender_id: _auth.user.uid,
+            type: MessageType.IMAGE,
+            content: _downloadUrl!,
+            sent_time: DateTime.now());
+
+        _db!.addMessageToChat(_chatID, _messageToSend);
+      }
+    } catch (e) {}
   }
 }
