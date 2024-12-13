@@ -1,3 +1,6 @@
+import 'package:chatme/models/chat_message.dart';
+import 'package:chatme/models/chat_user.dart';
+import 'package:chatme/widgets/message_bubble.dart';
 import 'package:chatme/widgets/rounded_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -53,6 +56,54 @@ class CustomListViewTile extends StatelessWidget {
               style: const TextStyle(
                   color: Colors.white54, fontWeight: FontWeight.w400),
             ),
+    );
+  }
+}
+
+class CustomChatListViewTile extends StatelessWidget {
+  final double width;
+  final double deviceHeight;
+  final bool isOwned;
+  final ChatMessage message;
+  final ChatUser sender;
+  const CustomChatListViewTile(
+      {required this.width,
+      required this.deviceHeight,
+      required this.isOwned,
+      required this.message,
+      required this.sender});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(bottom: 10),
+      width: width,
+      child: Row(
+        mainAxisAlignment:
+            isOwned ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          !isOwned
+              ? RoundedImage(
+                  key: UniqueKey(), imagePath: sender.image, size: width * 0.07)
+              : Container(),
+          SizedBox(
+            width: width * 0.05,
+          ),
+          message.type == MessageType.TEXT
+              ? MessageBubble(
+                  isOwned: isOwned,
+                  message: message,
+                  hieght: deviceHeight * 0.06,
+                  width: width)
+              : ImageMessageBubble(
+                  isOwned: isOwned,
+                  message: message,
+                  width: width * 0.55,
+                  height: deviceHeight * 0.3),
+        ],
+      ),
     );
   }
 }
