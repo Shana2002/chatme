@@ -100,6 +100,7 @@ class _ChatPageState extends State<ChatPage> {
         return Container(
           height: _deviceHight! * 0.74,
           child: ListView.builder(
+            controller: _messageListViewController,
             itemCount: _chatProvide!.messages!.length,
             itemBuilder: (_context, _index) {
               ChatMessage _message = _chatProvide!.messages![_index];

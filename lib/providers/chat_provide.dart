@@ -63,7 +63,15 @@ class ChatProvide extends ChangeNotifier {
           ).toList();
           messages = _message;
           notifyListeners();
-          // ass acroll to bottom call
+          // ass scroll to bottom call
+          WidgetsBinding.instance.addPostFrameCallback(
+            (_) {
+              if (_messageListViewController.hasClients) {
+                _messageListViewController.jumpTo(
+                    _messageListViewController.position.maxScrollExtent);
+              }
+            },
+          );
         },
       );
     } catch (e) {
@@ -83,7 +91,7 @@ class ChatProvide extends ChangeNotifier {
           type: MessageType.TEXT,
           content: _message!,
           sent_time: DateTime.now());
-    print("hello sttalam");
+      print("hello sttalam");
       _db!.addMessageToChat(_chatID, _messagetoSend);
     }
   }
@@ -102,6 +110,8 @@ class ChatProvide extends ChangeNotifier {
         print("hello sttalam");
         _db!.addMessageToChat(_chatID, _messageToSend);
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 }
