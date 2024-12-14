@@ -64,6 +64,12 @@ class ChatProvide extends ChangeNotifier {
           messages = _message;
           notifyListeners();
           // ass acroll to bottom call
+          WidgetsBinding.instance!.addPersistentFrameCallback((_) {
+            if (_messageListViewController.hasClients) {
+              _messageListViewController
+                  .jumpTo(_messageListViewController.position.maxScrollExtent);
+            }
+          });
         },
       );
     } catch (e) {
