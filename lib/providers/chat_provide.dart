@@ -7,6 +7,7 @@ import 'package:chatme/services/media_service.dart';
 import 'package:chatme/services/navigation_service.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get_it/get_it.dart';
 
 class ChatProvide extends ChangeNotifier {
@@ -23,6 +24,8 @@ class ChatProvide extends ChangeNotifier {
 
   String? _message;
   StreamSubscription? _messageStream;
+  late StreamSubscription _keyBoardvisibilityStream;
+  late KeyboardVisibilityController _keyboardVisibilityController;
 
   String get message {
     return message;
@@ -37,7 +40,9 @@ class ChatProvide extends ChangeNotifier {
     _storage = GetIt.instance.get<CloudStorageService>();
     _mediaService = GetIt.instance.get<MediaService>();
     _navigation = GetIt.instance.get<NavigationService>();
+    _keyboardVisibilityController = KeyboardVisibilityController();
     listenToMessages();
+    listenToKeyboardChanges();
   }
 
   @override
@@ -109,5 +114,12 @@ class ChatProvide extends ChangeNotifier {
         _db!.addMessageToChat(_chatID, _messageToSend);
       }
     } catch (e) {}
+  }
+
+  listenToKeyboardChanges() {
+    _keyBoardvisibilityStream =
+        _keyboardVisibilityController.onChange.listen((_event) {
+      _db!.updateChatData(_chatID, {"is_activity": _event});
+    });
   }
 }
