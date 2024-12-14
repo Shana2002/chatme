@@ -55,7 +55,7 @@ class ChatMessage {
     return {
       "content": content,
       "type": _messageType,
-      "senderId": sender_id,
+      "sender_id": sender_id,
       "sent_time": Timestamp.fromDate(sent_time),
     };
   }

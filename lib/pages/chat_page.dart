@@ -3,6 +3,7 @@ import 'package:chatme/models/chat_message.dart';
 import 'package:chatme/providers/authentication_provider.dart';
 import 'package:chatme/providers/chat_provide.dart';
 import 'package:chatme/services/navigation_service.dart';
+import 'package:chatme/widgets/custom_input_field.dart';
 import 'package:chatme/widgets/custom_list_view_tile.dart';
 import 'package:chatme/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +81,7 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                 ),
                 _messagesListView(),
+                _sendMessageForm(),
               ],
             ),
           )),
@@ -127,5 +129,79 @@ class _ChatPageState extends State<ChatPage> {
         ),
       );
     }
+  }
+
+  Widget _sendMessageForm() {
+    return Container(
+      height: _deviceHight! * 0.06,
+      decoration: BoxDecoration(
+          color: Color.fromRGBO(30, 29, 37, 1.0),
+          borderRadius: BorderRadius.circular(100)),
+      margin: EdgeInsets.symmetric(
+          horizontal: _deviceWidth! * 0.04, vertical: _deviceHight! * 0.03),
+      child: Form(
+          key: _messageFormState,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _messageTextField(),
+              _sendMesageButton(),
+              _imageMessageButton(),
+            ],
+          )),
+    );
+  }
+
+  Widget _messageTextField() {
+    return SizedBox(
+      width: _deviceWidth! * 0.65,
+      child: CustomInputField(
+          onSaved: (_value) {
+            _chatProvide!.message = _value;
+          },
+          regEx: r"^(?!\s*$).+",
+          hint: "Type a message",
+          obsecText: false),
+    );
+  }
+
+  Widget _sendMesageButton() {
+    double _size = _deviceHight! * 0.04;
+    return Container(
+      height: _size,
+      width: _size,
+      child: IconButton(
+          onPressed: () {
+            if (_messageFormState.currentState!.validate()) {
+              _messageFormState.currentState!.save();
+              _chatProvide!.sendTextMessage();
+              _messageFormState.currentState!.reset();
+            }
+          },
+          icon: Icon(
+            Icons.send,
+            color: Colors.white,
+          )),
+    );
+  }
+
+  Widget _imageMessageButton() {
+    double _size = _deviceHight! * 0.04;
+    return SizedBox(
+      height: _size,
+      width: _size,
+      child: FloatingActionButton(
+        onPressed: () {
+          _chatProvide!.sentImageMessage();
+        },
+        backgroundColor: Color.fromRGBO(0, 82, 218, 1.0),
+        child: const Icon(
+          Icons.camera_enhance,
+          color: Colors.white,
+        ),
+      ),
+    );
   }
 }

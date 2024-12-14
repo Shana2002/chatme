@@ -28,6 +28,10 @@ class ChatProvide extends ChangeNotifier {
     return message;
   }
 
+  void set message(String _value) {
+    _message = _value;
+  }
+
   ChatProvide(this._chatID, this._auth, this._messageListViewController) {
     _db = GetIt.instance.get<DatabaseService>();
     _storage = GetIt.instance.get<CloudStorageService>();

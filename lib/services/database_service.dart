@@ -81,7 +81,7 @@ class DatabaseService {
       await _db
           .collection(CHAT_COLLECTION)
           .doc(_chatID)
-          .collection(CHAT_COLLECTION)
+          .collection(MESSAGE_COLLECTION)
           .add(_message.toJson());
     } catch (e) {
       print(e);
