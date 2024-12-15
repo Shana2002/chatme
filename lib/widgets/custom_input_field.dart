@@ -35,3 +35,38 @@ class CustomInputField extends StatelessWidget {
     );
   }
 }
+
+class CustomTextField extends StatelessWidget {
+  final Function(String) onEdiditngComplete;
+  final String hintText;
+  final bool obscureText;
+  final TextEditingController controller;
+  IconData? icon;
+  CustomTextField(
+      {required this.onEdiditngComplete,
+      required this.hintText,
+      required this.obscureText,
+      required this.controller,
+      this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      onEditingComplete: () => onEdiditngComplete(controller.value.text),
+      cursorColor: Colors.white,
+      style: TextStyle(color: Colors.white),
+      obscureText: obscureText,
+      decoration: InputDecoration(
+          fillColor: Color.fromRGBO(30, 29, 37, 1.0),
+          filled: true,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide.none,
+          ),
+          hintText: hintText,
+          hintStyle: TextStyle(color: Colors.white54),
+          prefixIcon: Icon(icon,color: Colors.white,)),
+    );
+  }
+}
